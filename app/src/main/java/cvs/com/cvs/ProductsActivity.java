@@ -1,7 +1,10 @@
 package cvs.com.cvs;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -90,6 +93,21 @@ public class ProductsActivity extends AppCompatActivity {
                 Log.d(TAG, t.getMessage());
             }
         });
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            NotificationManager mNotificationManager =
+                    (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+            int importance = NotificationManager.IMPORTANCE_HIGH;
+            NotificationChannel mChannel = new NotificationChannel(Constants.PRODUCT_ID, Constants.PRODUCT_NAME, importance);
+            mChannel.setDescription(Constants.PRODUCT_CATEGORY);
+            mChannel.enableLights(true);
+            mChannel.setLightColor(Color.RED);
+            mChannel.enableVibration(true);
+            mChannel.setVibrationPattern(new long[]{100, 200, 300, 400, 500, 400, 300, 200, 400});
+            mNotificationManager.createNotificationChannel(mChannel);
+        }
+
+        MyNotificationManager.getInstance(this).displayNotification(Constants.PRODUCT_NAME, Constants.PRODUCT_CATEGORY);
 
     }
 }
