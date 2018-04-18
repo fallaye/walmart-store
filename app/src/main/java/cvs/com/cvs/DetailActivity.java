@@ -2,8 +2,10 @@ package cvs.com.cvs;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
@@ -35,12 +37,17 @@ public class DetailActivity extends AppCompatActivity {
 
         tvId.setText("Product ID: " + items.getItemId());
         tvName.setText(items.getName());
-        tvDesc.setText(items.getDes());
+        tvDesc.setText(items.getDesc().substring(0, 130) + "...");
         tvCat.setText(items.getCategoryPath());
         tvPrice.setText("Price   $" + items.getSalePrice());
         Picasso.with(getApplicationContext()).load(items.getThumgnailImage()).into(imageView);
 
 
 
+    }
+
+    public void addToCart(View view) {
+        ShoppingCartItems.getInstance().addItemsToShoppingCart(items);
+        Toast.makeText(this, "Added to cart.", Toast.LENGTH_SHORT).show();
     }
 }

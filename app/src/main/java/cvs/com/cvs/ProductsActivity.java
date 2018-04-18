@@ -5,12 +5,16 @@ import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import java.util.List;
@@ -28,11 +32,14 @@ public class ProductsActivity extends AppCompatActivity {
     Context context;
     ProductsAdapter productsAdapter;
     RecyclerView recyclerView;
+    Button showCart;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_products);
+
+        showCart = findViewById(R.id.btnShowCart);
 
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
@@ -109,5 +116,15 @@ public class ProductsActivity extends AppCompatActivity {
 
         MyNotificationManager.getInstance(this).displayNotification(Constants.PRODUCT_NAME, Constants.PRODUCT_CATEGORY);
 
+    }
+
+    public void showCart(View view) {
+        if(ShoppingCartItems.getInstance().getShoppingCartList().size() == 0){
+            Toast.makeText(this, "Your Cart Is Empty", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        Intent intent = new Intent(this, CartActivity.class);
+        startActivity(intent);
     }
 }
